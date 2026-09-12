@@ -1,0 +1,232 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px 80px;
+  background: radial-gradient(circle at 15% 0%, rgba(255, 92, 168, 0.28), transparent 45%),
+    radial-gradient(circle at 85% 5%, rgba(255, 176, 59, 0.24), transparent 42%),
+    radial-gradient(circle at 50% 90%, rgba(124, 92, 255, 0.2), transparent 50%),
+    #0b0716;
+}
+
+.hero {
+  text-align: center;
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  font-size: 34px;
+  letter-spacing: 4px;
+  margin: 0 0 8px;
+  background: linear-gradient(90deg, #ff5ca8, #ff9a4d, #ffd23f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tagline {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #fdf6ff;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #c9b8dd;
+  margin: 0;
+}
+
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.address-form input {
+  background: #1a1229;
+  border: 1px solid #3a2b52;
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: #fdf6ff;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.address-form input:focus {
+  border-color: #ff9a4d;
+}
+
+.address-form button {
+  background: linear-gradient(90deg, #ff5ca8, #ff9a4d);
+  border: none;
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: #1a0f22;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 8px 24px rgba(255, 92, 168, 0.35);
+}
+
+.address-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+.form-error {
+  color: #ff6b81;
+  font-size: 13px;
+  margin: 0;
+}
+
+.form-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #9b87b5;
+  margin: 4px 0 0;
+}
+
+.global-error {
+  color: #ff6b81;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.result {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.receipt-card {
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(165deg, #1e1430 0%, #120c1f 100%);
+  border: 1px solid #3a2b52;
+  border-radius: 26px;
+  padding: 28px 24px;
+  box-shadow: 0 20px 60px rgba(255, 92, 168, 0.15), 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.receipt-header {
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff5ca8, #ffd23f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 18px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+}
+
+.receipt-row .label {
+  font-size: 13px;
+  color: #a695bd;
+}
+
+.receipt-row .value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fdf6ff;
+}
+
+.receipt-row .value.mono {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 13px;
+  color: #ffd23f;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #4a3862, transparent);
+  margin: 12px 0;
+}
+
+.receipt-status {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #9b87b5;
+}
+
+.receipt-status-value {
+  text-align: center;
+  font-size: 19px;
+  font-weight: 800;
+  margin-top: 4px;
+  background: linear-gradient(90deg, #4dffb0, #ffd23f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.receipt-fun {
+  text-align: center;
+  font-size: 13px;
+  color: #e5d9f2;
+  margin: 14px 0 4px;
+}
+
+.receipt-footer {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #6b5885;
+  margin-top: 10px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.secondary-button {
+  flex: 1;
+  background: linear-gradient(90deg, #ff9a4d, #ffd23f);
+  color: #1a0f22;
+  border: none;
+  border-radius: 16px;
+  padding: 13px 16px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.secondary-button:disabled {
+  opacity: 0.6;
+}
+
+.secondary-button.outline {
+  background: transparent;
+  color: #fdf6ff;
+  border: 1px solid #4a3862;
+}
+
+@media (max-width: 420px) {
+  .hero h1 {
+    font-size: 27px;
+    letter-spacing: 2px;
+  }
+
+  .receipt-card {
+    padding: 22px 18px;
+  }
+}
