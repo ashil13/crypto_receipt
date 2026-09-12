@@ -3,9 +3,9 @@
 // Public services like this can go down or change their rules with no notice,
 // so we try each in order and fall back to the next on failure.
 const RPC_URLS = [
-  'https://eth.llamarpc.com',
-  'https://1rpc.io/eth',
-  'https://eth.merkle.io',
+  'https://ethereum-rpc.publicnode.com',
+  'https://eth.drpc.org',
+  'https://eth-mainnet.public.blastapi.io',
   'https://cloudflare-eth.com',
 ]
 
