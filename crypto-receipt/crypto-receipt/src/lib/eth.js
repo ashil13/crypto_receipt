@@ -1,8 +1,13 @@
 // Free, public Ethereum Mainnet JSON-RPC endpoints. No API key required.
-// Cloudflare's gateway is built for direct browser use (CORS-enabled).
-// Ankr's public endpoint is kept as a fallback in case the first one is
-// unreachable or rate-limited.
-const RPC_URLS = ['https://cloudflare-eth.com', 'https://rpc.ankr.com/eth']
+// These are all built/commonly used for direct browser calls (CORS-enabled).
+// Public services like this can go down or change their rules with no notice,
+// so we try each in order and fall back to the next on failure.
+const RPC_URLS = [
+  'https://eth.llamarpc.com',
+  'https://1rpc.io/eth',
+  'https://eth.merkle.io',
+  'https://cloudflare-eth.com',
+]
 
 export function isValidAddress(address) {
   return /^0x[a-fA-F0-9]{40}$/.test(address)
