@@ -1,51 +1,63 @@
-// Optional enhancement. Etherscan's API is free but requires a free API key
-// (sign up at https://etherscan.io/apis). If no key is configured, this
-// returns null and the app simply shows fewer fields — nothing is faked.
-// Uses API V2 (chainid=1 is Ethereum Mainnet) — the old V1 base URL was
-// fully shut down by Etherscan on August 15, 2025.
-const ETHERSCAN_API = 'https://api.etherscan.io/v2/api'
-const CHAIN_ID = 1
-const API_KEY = import.meta.env.VITE_ETHERSCAN_API_KEY
+// Free, public Ethereum Mainnet JSON-RPC endpoints. No API key required.
+// These are all built/commonly used for direct browser calls (CORS-enabled).
+// Public services like this can go down or change their rules with no notice,
+// so we try each in order and fall back to the next on failure.
+const RPC_URLS = [
+  'https://ethereum-rpc.publicnode.com',
+  'https://eth.drpc.org',
+  'https://eth-mainnet.public.blastapi.io',
+  'https://cloudflare-eth.com',
+]
 
-export function hasEtherscanKey() {
-  return Boolean(API_KEY)
+export function isValidAddress(address) {
+  return /^0x[a-fA-F0-9]{40}$/.test(address)
 }
 
-export async function getEtherscanStats(address) {
-  if (!API_KEY) return null
+async function rpcCall(method, params) {
+  let lastError
 
-  const url = `${ETHERSCAN_API}?chainid=${CHAIN_ID}&module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${API_KEY}`
+  for (const url of RPC_URLS) {
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method,
+          params,
+        }),
+      })
 
-  const res = await fetch(url)
-  if (!res.ok) return null
+      if (!res.ok) {
+        throw new Error('RPC request failed')
+      }
 
-  const data = await res.json()
+      const data = await res.json()
 
-  // status "0" with an empty result means "no transactions found" — that's a
-  // valid, real answer (a fresh/unused wallet), not an error.
-  if (!Array.isArray(data.result) || data.result.length === 0) {
-    return null
+      if (data.error) {
+        throw new Error(data.error.message || 'RPC error')
+      }
+
+      return data.result
+    } catch (err) {
+      lastError = err
+    }
   }
 
-  const txs = data.result
-  const firstTx = txs[0]
-  const lastTx = txs[txs.length - 1]
+  throw lastError
+}
 
-  const firstSeenMs = Number(firstTx.timeStamp) * 1000
-  const lastSeenMs = Number(lastTx.timeStamp) * 1000
-  const nowMs = Date.now()
+// Returns the ETH balance as a number (e.g. 4.82).
+export async function getEthBalance(address) {
+  const hexBalance = await rpcCall('eth_getBalance', [address, 'latest'])
+  const wei = BigInt(hexBalance)
+  return Number(wei) / 1e18
+}
 
-  const walletAgeYears = (nowMs - firstSeenMs) / (1000 * 60 * 60 * 24 * 365.25)
-  const daysSinceLastTx = (nowMs - lastSeenMs) / (1000 * 60 * 60 * 24)
-
-  return {
-    firstSeenMs,
-    lastSeenMs,
-    walletAgeYears,
-    daysSinceLastTx,
-    totalTx: txs.length,
-    // Etherscan's free txlist call caps at 10,000 records, so for extremely
-    // active wallets this count may be a lower bound rather than exact.
-    totalTxIsCapped: txs.length >= 10000,
-  }
+// Returns the number of transactions SENT from this address (the account nonce).
+// Note: this does not include incoming transactions.
+export async function getTransactionCount(address) {
+  const hexCount = await rpcCall('eth_getTransactionCount', [address, 'latest'])
+  return parseInt(hexCount, 16)
 }
